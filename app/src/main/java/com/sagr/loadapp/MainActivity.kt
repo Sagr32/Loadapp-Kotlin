@@ -34,21 +34,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        val myBtn: Button = findViewById(R.id.button)
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         custom_button.setOnClickListener {
             download()
         }
 
-        myBtn.setOnClickListener {
-            NotificationHelper.createChannel(this)
-            val notificationManager = ContextCompat.getSystemService(
-                this,
-                NotificationManager::class.java
-            ) as NotificationManager
-            notificationManager.sendNotification("New message", this, "Complete")
-        }
+
     }
 
     private val receiver = object : BroadcastReceiver() {

@@ -12,4 +12,10 @@
     <string name="button_loading">We are loading </string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="fab">FAB</string>
+    <string name="radio_button_glide">Glide - Image Loading Library By BumpTech</string>
+    <string name="radio_button_loadapp">LoadApp - Current repository by Udacity</string>
+    <string name="radio_button_retrofit">Retrofit - Type-safe HTTP client for Android and Java by Square, Inc</string>
+    <string name="select_option_toast">Please, select one of the options for download</string>
+    <string name="download_image_desc">Download Image</string>
+    <string name="download">Download</string>
 </resources>
