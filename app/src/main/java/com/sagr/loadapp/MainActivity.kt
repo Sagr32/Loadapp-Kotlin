@@ -101,6 +101,7 @@ class MainActivity : AppCompatActivity() {
                         this@MainActivity,
                         SUCCESS
                     )
+                    Toast.makeText(this@MainActivity, "Download SUCCESS", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
                     requestStatus = RequestStatus.Failed
@@ -110,6 +111,8 @@ class MainActivity : AppCompatActivity() {
                         this@MainActivity,
                         FAILED
                     )
+                    Toast.makeText(this@MainActivity, "Download FAILED", Toast.LENGTH_SHORT).show()
+
                 }
 
             }
