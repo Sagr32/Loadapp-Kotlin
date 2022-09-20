@@ -10,7 +10,9 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -24,7 +26,7 @@ import kotlinx.android.synthetic.main.content_main.*
 class MainActivity : AppCompatActivity() {
 
     private var downloadID: Long = 0
-
+    private var selectedRadioButton: String? = null
     private lateinit var notificationManager: NotificationManager
     private lateinit var pendingIntent: PendingIntent
     private lateinit var action: NotificationCompat.Action
@@ -37,7 +39,25 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         custom_button.setOnClickListener {
-            download()
+            if (selectedRadioButton != null) {
+                custom_button.buttonState = ButtonState.Clicked
+                custom_button.buttonState = ButtonState.Loading
+                download()
+                custom_button.buttonState = ButtonState.Completed
+            } else {
+                Toast.makeText(this, "Please select the file to download", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+
+        }
+        radio_group.setOnCheckedChangeListener { _, radioId ->
+            selectedRadioButton = when (radioId) {
+                R.id.rb_glide -> "Glide"
+                R.id.rb_retrofit -> "Udacity"
+                else -> "Github"
+            }
+
         }
 
 

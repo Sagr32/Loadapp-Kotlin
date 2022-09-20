@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
@@ -27,8 +28,22 @@ class LoadingButton @JvmOverloads constructor(
     private var circleColor = 0
 
     //    -------------
-    private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
+     var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
+        when (new) {
+            ButtonState.Clicked -> {
+                Log.d("CustomView", "Clicked")
 
+            }
+            ButtonState.Loading -> {
+                Log.d("CustomView", "Loading")
+
+            }
+            else -> {
+                Log.d("CustomView", "Completed")
+
+            }
+
+        }
     }
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
