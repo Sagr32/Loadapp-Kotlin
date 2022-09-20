@@ -14,6 +14,8 @@ import com.sagr.loadapp.R
 import com.sagr.loadapp.utils.Constants.CHANNEL_ID
 import com.sagr.loadapp.utils.Constants.CHANNEL_NAME
 import android.app.*
+import com.sagr.loadapp.utils.Constants.FILE_NAME_KEY
+import com.sagr.loadapp.utils.Constants.STATUS_KEY
 
 private const val NOTIFICATION_ID = 0
 private const val REQUEST_CODE = 0
@@ -53,8 +55,8 @@ fun NotificationManager.sendNotification(
 ) {
     val contentIntent = Intent(applicationContext, DetailActivity::class.java)
     contentIntent.apply {
-        putExtra("fileName", messageBody)
-        putExtra("status", status)
+        putExtra(FILE_NAME_KEY, messageBody)
+        putExtra(STATUS_KEY, status)
     }
 
     val contentPendingIntent = PendingIntent.getActivity(
@@ -72,7 +74,7 @@ fun NotificationManager.sendNotification(
 
     val notificationBuilder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_assistant_black_24dp)
-        .setContentTitle("Download Complete")
+        .setContentTitle("Download Complete - $status")
         .setContentText(messageBody)
         .setContentIntent(contentPendingIntent)
         .setAutoCancel(true)
@@ -80,4 +82,9 @@ fun NotificationManager.sendNotification(
         .addAction(action)
 
     notify(NOTIFICATION_ID, notificationBuilder.build())
+}
+
+
+fun NotificationManager.cancelNotification() {
+    cancelAll()
 }

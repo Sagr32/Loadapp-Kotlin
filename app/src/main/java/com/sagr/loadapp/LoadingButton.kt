@@ -2,10 +2,7 @@ package com.sagr.loadapp
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
+import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -19,7 +16,9 @@ class LoadingButton @JvmOverloads constructor(
     private var widthSize = 0
     private var heightSize = 0
     private var buttonText = ""
-    private val valueAnimator = ValueAnimator()
+    private val valueAnimator = ValueAnimator.ofInt(0, 360).setDuration(3000)
+    private var downloadProgress = 0
+    private val textBounds = Rect()
 
     //    -----
     private var bgColor = 0
@@ -28,7 +27,7 @@ class LoadingButton @JvmOverloads constructor(
     private var circleColor = 0
 
     //    -------------
-     var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
+    var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
         when (new) {
             ButtonState.Clicked -> {
                 Log.d("CustomView", "Clicked")
@@ -37,10 +36,17 @@ class LoadingButton @JvmOverloads constructor(
             ButtonState.Loading -> {
                 Log.d("CustomView", "Loading")
 
+                updateButtonText(resources.getString(R.string.button_loading))
+                valueAnimator.start()
+
             }
             else -> {
                 Log.d("CustomView", "Completed")
 
+
+                updateButtonText(resources.getString(R.string.completed))
+                valueAnimator.cancel()
+                resetLoading()
             }
 
         }
@@ -60,6 +66,7 @@ class LoadingButton @JvmOverloads constructor(
             loadingColor = getColor(R.styleable.LoadingButton_loadingIndicatorColor, 0)
             circleColor = getColor(R.styleable.LoadingButton_circleColor, 0)
         }
+        setValueAnimation()
     }
 
 
@@ -68,6 +75,19 @@ class LoadingButton @JvmOverloads constructor(
         canvas?.let {
             drawButtonBgColor(canvas)
             drawButtonTitle(canvas)
+            // circle
+            paint.color = circleColor
+            canvas.drawArc(
+                widthSize - 200f,
+                50f,
+                widthSize - 100f,
+                100f,
+                0f,
+
+                downloadProgress.toFloat(),
+                true,
+                paint
+            )
 
         }
 
@@ -93,7 +113,7 @@ class LoadingButton @JvmOverloads constructor(
         paint.color = fontColor
         canvas.drawText(
             buttonText,
-            (widthSize / 2).toFloat(),
+            (widthSize / 3).toFloat(),
             heightSize / 2 - (paint.descent() + paint.ascent()) / 2,
             paint
         )
@@ -105,6 +125,27 @@ class LoadingButton @JvmOverloads constructor(
         canvas.drawRect(0f, 0f, widthSize.toFloat(), heightSize.toFloat(), paint)
     }
 
+    // update button text
+    private fun updateButtonText(text: String) {
+        this.buttonText = text
+        invalidate()
 
+    }
+
+    private fun setValueAnimation() {
+        // setup animation
+        valueAnimator.apply {
+            addUpdateListener {
+                downloadProgress = it.animatedValue as Int
+                invalidate()
+            }
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.RESTART
+        }
+    }
+
+    private fun resetLoading() {
+        downloadProgress = 0
+    }
 }
 

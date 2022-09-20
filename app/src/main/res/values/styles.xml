@@ -21,4 +21,14 @@
         <item name="fontWeight">500</item>
         <item name="android:textSize">18sp</item>
     </style>
+
+    <style name="titles_style">
+        <item name="fontWeight">700</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="sub_title_style">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">22sp</item>
+    </style>
 </resources>
