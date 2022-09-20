@@ -74,7 +74,15 @@ class LoadingButton @JvmOverloads constructor(
         super.onDraw(canvas)
         canvas?.let {
             drawButtonBgColor(canvas)
-            drawButtonTitle(canvas)
+
+            // animated background color
+            paint.color = loadingColor
+            canvas.drawRect(
+                0f, 0f,
+                (downloadProgress * 2).toFloat(),
+                widthSize.toFloat(),
+                paint
+            )
             // circle
             paint.color = circleColor
             canvas.drawArc(
@@ -83,11 +91,12 @@ class LoadingButton @JvmOverloads constructor(
                 widthSize - 100f,
                 100f,
                 0f,
-
                 downloadProgress.toFloat(),
                 true,
                 paint
             )
+            // draw title
+            drawButtonTitle(canvas)
 
         }
 
@@ -117,6 +126,8 @@ class LoadingButton @JvmOverloads constructor(
             heightSize / 2 - (paint.descent() + paint.ascent()) / 2,
             paint
         )
+
+
     }
 
     // Function to set/draw Button background color
