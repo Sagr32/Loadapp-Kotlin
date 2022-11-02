@@ -23,4 +23,6 @@ This project is part of the Android Kotlin Developer Nanodegree from Udacity.
  * Custom views
  * Notifications
  * Retrofit
+ * Motion layout
+
  
